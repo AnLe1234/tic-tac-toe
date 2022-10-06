@@ -25,6 +25,20 @@ int main() {
     // read input to determine which type
     if (game_type == 1) {
         pvp();
+        int turn = 0;
+        do {
+            int player;
+            scanf("Player 1 enter location: %d", player);
+            board[player - 1] = "X";
+            // check if win
+            scanf("Player 2 enter location: %d", player);
+            board[player - 1] = "0";
+            // check if win
+            turn++;
+        } while (turn < 5);
+        if (turn == 5) {
+            printf("Draw!");
+        }
     } else {
         pve();
     }
