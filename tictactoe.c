@@ -11,7 +11,11 @@ int main() {
         scanf(": %d", &game_type);
     } while (game_type != 1 || game_type != 2);
     // read input to determine which type
-
+    if (game_type == 1) {
+        pvp();
+    } else {
+        pve();
+    }
     // loop back until 1 person win/board is full
         // player 1 choose a location
         // display board
