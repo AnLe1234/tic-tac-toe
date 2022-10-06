@@ -1,11 +1,23 @@
 // tic tac toe between a computer or 2 people
-
+#include <stdio.h>
 // fucntion to display current board
-
+void display_board(int board[9]) {
+    int i = 0;
+    for (int j = 0; j < 3; j++) {
+        printf("+-----------+\n");
+        for (int k = 0; k < 3; k++) {
+            printf("| %d ", board[i]);
+            i++;
+        }
+        printf("|\n");
+    }
+    printf("+-----------+\n");
+};
 // main function
 int main() {
     // user choose which type to play
     int game_type;
+    int board[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
     printf("1) player vs. player\t2) player vs. computer\n");
     do {
         scanf(": %d", &game_type);
