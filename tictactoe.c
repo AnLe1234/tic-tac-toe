@@ -5,7 +5,11 @@
 // main function
 int main() {
     // user choose which type to play
-
+    int game_type;
+    printf("1) player vs. player\t2) player vs. computer\n");
+    do {
+        scanf(": %d", &game_type);
+    } while (game_type != 1 || game_type != 2);
     // read input to determine which type
 
     // loop back until 1 person win/board is full
