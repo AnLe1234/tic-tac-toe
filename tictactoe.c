@@ -138,13 +138,10 @@ int main() {
             winner(symbol, game_type);
         }
         printf("Do you want to play again? y/n\n: ");
-        scanf("%c", &replay);
-        printf("Test0\n");
+        scanf(" %c", &replay);
         if (replay != 'y') {
             break;
         }
-        printf("%c", replay);
     } while (1);
-    printf("test2");
     return 0;
 }
