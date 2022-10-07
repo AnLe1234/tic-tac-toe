@@ -55,6 +55,22 @@ void computer_turn(char *board, char symbol) {
         rand_location = rand() % 10;
     } while (board[rand_location] != ' ');
     board[rand_location] = symbol;
+};
+// check who's the winner based on symbol and game type
+int winner(char symbol, int game_type) {
+    if (game_type == 1) {
+        if (symbol == 'X') {
+            printf("Player 1 win!\n");
+        } else {
+            printf("Player 2 win!\n");
+        }
+    } else {
+        if (symbol == 'X') {
+            printf("Player win!\n");
+        } else {
+            printf("Computer win!\n");
+        }
+    }
 }
 // main function
 int main() {
@@ -89,24 +105,20 @@ int main() {
             // int win = check_win(board, symbol);
             // check win condition
             if (check_win(board, symbol) == 1 ) {
-                if (symbol == 'X') {
-                    printf("Player 1 win");
-                }
-                else {
-                    printf("Player 2 win");
-                }
                 break;
             }
             turn--;
         }
     }
     else {
+        // player vs. computer
         while (turn != 0) {
             if (turn % 2 == 1) {
                 symbol = 'X';
                 printf("Player\n");
                 player_turn(board, symbol);
             } else {
+                // computer turn
                 symbol = 'O';
                 printf("Computer\n");
                 computer_turn(board, symbol);
@@ -114,32 +126,15 @@ int main() {
             display_board(board);
             // int win = check_win(board, symbol);
             if (check_win(board, symbol) == 1 ) {
-                if (symbol == 'X') {
-                    printf("Player win");
-                }
-                else {
-                    printf("Computer win");
-                }
                 break;
             }
             turn--;
         }
     }
     if (turn == 0) {
+        // draw as board is full
         printf("Draw!\n");
     }
-    // } else {
-    //     pve();
-    // }
-
-    // loop back until 1 person win/board is full
-    // player 1 choose a location
-    // display board
-    // check if win condition/full board
-    // player 2 choose a location
-    // displayboard
-    // check if win condition/full board
-    // print out winner/draw
-
+    winner(symbol, game_type);
     return 0;
 }
