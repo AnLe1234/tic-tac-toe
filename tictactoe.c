@@ -30,9 +30,8 @@ void player_turn(char *board, char symbol) {
             break;
         }
     } while (1);
-    // board[row-1][col-1] = symbol;
 };
-
+// function to check if there is a winner
 int check_win(char *board, char symbol) {
     int win = 0;
     if ((board[0] == symbol && board[1]== symbol && board[2]  == symbol)
@@ -47,10 +46,11 @@ int check_win(char *board, char symbol) {
     }
     return win;
 };
+// function let computer choose a location on the board
 void computer_turn(char *board, char symbol) {
     time_t t;
     int rand_location;
-    printf("Computer's turn");
+    printf("Computer's turn\n");
     do {
         rand_location = rand() % 10;
     } while (board[rand_location] != ' ');
@@ -60,46 +60,35 @@ void computer_turn(char *board, char symbol) {
 int main() {
     // user choose which type to play
     int game_type = 0;
+    int replay;
     char board[9] = {' ', ' ', ' ',
                      ' ', ' ', ' ',
                      ' ', ' ', ' '};
-    printf("1) player vs. player\t2) player vs. computer");
-    // do {
+    printf("1) player vs. player\t2) player vs. computer\n: ");
     scanf("%d", &game_type);
-    // } while (game_type != 1 || game_type != 2);
-    printf("%d", game_type);
     // read input to determine which type
-    int max_turn = 9;
+    int turn = 9;
     char symbol;
+    // display initial board
     display_board(board);
     if (game_type == 1) {
-        // pvp();
-        // int turn = 0;
-        // do {
-        //     int player;
-        //     scanf("Player 1 enter location: %d", player);
-        //     board[player - 1] = "X";
-        //     // check if win
-        //     scanf("Player 2 enter location: %d", player);
-        //     board[player - 1] = "0";
-        //     // check if win
-        //     turn++;
-        // } while (turn < 5);
-        // if (turn == 5) {
-        //     printf("Draw!");
-        // }
-        while (max_turn != 0) {
-            if (max_turn % 2 == 1) {
+        // loop back until board is full -> draw
+        while (turn != 0) {
+            if (turn % 2 == 1) {
+                // symbol differenciate between 2 player
                 symbol = 'X';
                 printf("Player 1\n");
             } else {
                 symbol = 'O';
                 printf("Player 2\n");
             }
+            // player 1 or 2 's turn based on turn number
             player_turn(board, symbol);
+            // display current board
             display_board(board);
-            int win = check_win(board, symbol);
-            if (win == 1 ) {
+            // int win = check_win(board, symbol);
+            // check win condition
+            if (check_win(board, symbol) == 1 ) {
                 if (symbol == 'X') {
                     printf("Player 1 win");
                 }
@@ -108,10 +97,35 @@ int main() {
                 }
                 break;
             }
-            max_turn--;
+            turn--;
         }
     }
-    if (max_turn == 0) {
+    else {
+        while (turn != 0) {
+            if (turn % 2 == 1) {
+                symbol = 'X';
+                printf("Player\n");
+                player_turn(board, symbol);
+            } else {
+                symbol = 'O';
+                printf("Computer\n");
+                computer_turn(board, symbol);
+            }
+            display_board(board);
+            // int win = check_win(board, symbol);
+            if (check_win(board, symbol) == 1 ) {
+                if (symbol == 'X') {
+                    printf("Player win");
+                }
+                else {
+                    printf("Computer win");
+                }
+                break;
+            }
+            turn--;
+        }
+    }
+    if (turn == 0) {
         printf("Draw!\n");
     }
     // } else {
