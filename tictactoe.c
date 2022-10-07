@@ -15,13 +15,26 @@ void display_board(char *board) {
     }
     printf("+-----------+\n");
 };
-int input_check(int input);
+// check if valid input
+int input_check(int input) {
+    int i;
+    do {
+        i = scanf("%d", &input);
+        if (i != 1) {
+            printf("Invalid input!\n");
+            scanf("%*s");
+            // clear input buffer
+            while (getchar() != '\n')
+                ;
+        }
+    } while (i != 1);
+    return input;
+};
 // function where player enter location
 void player_turn(char *board, char symbol) {
     int row, col;
     do {
         printf("Enter location (row column): ");
-        // scanf("%d %d", &row, &col);
         row = input_check(row);
         col = input_check(col);
         if (row > 3 || col > 3 || row < 1 || col < 1) {
@@ -37,14 +50,14 @@ void player_turn(char *board, char symbol) {
 // function to check if there is a winner
 int check_win(char *board, char symbol) {
     int win = 0;
-    if ((board[0] == symbol && board[1]== symbol && board[2]  == symbol)
-        || (board[0]== symbol && board[4]== symbol && board[8] == symbol)
-        || (board[0]== symbol && board[3]== symbol && board[6] == symbol)
-        || (board[2]== symbol && board[4]== symbol && board[6] == symbol)
-        || (board[2]== symbol && board[5]== symbol && board[8] == symbol)
-        || (board[1]== symbol && board[4]== symbol && board[7] == symbol)
-        || (board[3]== symbol && board[4]== symbol && board[5] == symbol)
-        || (board[6]== symbol && board[7]== symbol && board[8] == symbol)) {
+    if ((board[0] == symbol && board[1] == symbol && board[2] == symbol)
+    || (board[0] == symbol && board[4] == symbol && board[8] == symbol)
+    || (board[0] == symbol && board[3] == symbol && board[6] == symbol)
+    || (board[2] == symbol && board[4] == symbol && board[6] == symbol)
+    || (board[2] == symbol && board[5] == symbol && board[8] == symbol)
+    || (board[1] == symbol && board[4] == symbol && board[7] == symbol)
+    || (board[3] == symbol && board[4] == symbol && board[5] == symbol)
+    || (board[6] == symbol && board[7] == symbol && board[8] == symbol)) {
         win = 1;
     }
     return win;
@@ -53,7 +66,7 @@ int check_win(char *board, char symbol) {
 void computer_turn(char *board, char symbol) {
     time_t t;
     int rand_location;
-    srand((unsigned) time(&t));
+    srand((unsigned)time(&t));
     do {
         rand_location = rand() % 10;
     } while (board[rand_location] != ' ');
@@ -82,13 +95,17 @@ int main(void) {
     do {
         int game_type = 0;
         char board[9] = {' ', ' ', ' ',
-                        ' ', ' ', ' ',
-                        ' ', ' ', ' '};
+                         ' ', ' ', ' ',
+                         ' ', ' ', ' '};
         printf("1) player vs. player\t2) player vs. computer\n: ");
         do {
             game_type = input_check(game_type);
+            // range check
             if (game_type != 1 || game_type != 2) {
                 printf("Please enter 1 or 2.\n");
+                // clear input buffer
+                while (getchar() != '\n')
+                    ;
             }
         } while (game_type < 1 || game_type > 2);
         // read input to determine which type
@@ -112,13 +129,12 @@ int main(void) {
                 // display current board
                 display_board(board);
                 // check win condition
-                if (check_win(board, symbol) == 1 ) {
+                if (check_win(board, symbol) == 1) {
                     break;
                 }
                 turn--;
             }
-        }
-        else {
+        } else {
             // player vs. computer
             while (turn != 0) {
                 if (turn % 2 == 1) {
@@ -132,7 +148,7 @@ int main(void) {
                     computer_turn(board, symbol);
                 }
                 display_board(board);
-                if (check_win(board, symbol) == 1 ) {
+                if (check_win(board, symbol) == 1) {
                     break;
                 }
                 turn--;
@@ -146,39 +162,16 @@ int main(void) {
             winner(symbol, game_type);
         }
         printf("Do you want to play again? 1.yes 2.no\n");
-        // printf("%d", replay);
-        // do {
-        //     scanf("%d\n", &replay);
-        //     if (replay != 1 || replay != 2) {
-        //         printf("Please enter 1 or 2.\n");
-        //     } else {
-        //         break;
-        //     }
-        // } while (1);
         do {
             replay = input_check(replay);
-            if ((replay != 1) || (replay != 2)) {
-                printf("Please enter 1 or 2!\n");
+            if (replay < 1 || replay > 2) {
+                printf("Please enter 1(yes) or 2(no).\n");
+                // clear input buffer
+                while (getchar() != '\n')
+                    ;
             }
-        } while ((replay != 1) || (replay != 2));
+        } while (replay < 1 || replay > 2);
         // printf("%d\n", replay);
     } while (replay == 1);
     return 0;
-}
-
-int input_check(int input) {
-    // while (scanf("%d", &input) != 1) {
-    //     printf("Invalid input!\n");
-    //     scanf("%*s");
-    // }
-    int i;
-    do {
-        i  = scanf("%d", &input);
-        if (i != 1) {
-            printf("Invalid input!\n");
-            scanf("%*s");
-            while(getchar() != '\n');
-        }
-    } while (i != 1);
-    return input;
 }
