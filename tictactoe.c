@@ -171,7 +171,6 @@ int main(void) {
                     ;
             }
         } while (replay < 1 || replay > 2);
-        // printf("%d\n", replay);
     } while (replay == 1);
     return 0;
 }
