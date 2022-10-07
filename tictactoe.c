@@ -15,12 +15,15 @@ void display_board(char *board) {
     }
     printf("+-----------+\n");
 };
+int input_check(int input);
 // function where player enter location
 void player_turn(char *board, char symbol) {
     int row, col;
     do {
         printf("Enter location (row column): ");
-        scanf("%d %d", &row, &col);
+        // scanf("%d %d", &row, &col);
+        row = input_check(row);
+        col = input_check(col);
         if (row > 3 || col > 3 || row < 1 || col < 1) {
             printf("Enter limit co-ordinate.\n");
         } else if (board[(3 * (row - 1) + (col - 1))] != ' ') {
@@ -73,16 +76,21 @@ int winner(char symbol, int game_type) {
     }
 }
 // main function
-int main() {
+int main(void) {
     // user choose which type to play
-    char replay = 'y';
+    int replay;
     do {
         int game_type = 0;
         char board[9] = {' ', ' ', ' ',
                         ' ', ' ', ' ',
                         ' ', ' ', ' '};
         printf("1) player vs. player\t2) player vs. computer\n: ");
-        scanf("%d", &game_type);
+        do {
+            game_type = input_check(game_type);
+            if (game_type != 1 || game_type != 2) {
+                printf("Please enter 1 or 2.\n");
+            }
+        } while (game_type < 1 || game_type > 2);
         // read input to determine which type
         int turn = 9;
         char symbol;
@@ -137,11 +145,40 @@ int main() {
             // there's winner
             winner(symbol, game_type);
         }
-        printf("Do you want to play again? y/n\n: ");
-        scanf(" %c", &replay);
-        if (replay != 'y') {
-            break;
-        }
-    } while (1);
+        printf("Do you want to play again? 1.yes 2.no\n");
+        // printf("%d", replay);
+        // do {
+        //     scanf("%d\n", &replay);
+        //     if (replay != 1 || replay != 2) {
+        //         printf("Please enter 1 or 2.\n");
+        //     } else {
+        //         break;
+        //     }
+        // } while (1);
+        do {
+            replay = input_check(replay);
+            if ((replay != 1) || (replay != 2)) {
+                printf("Please enter 1 or 2!\n");
+            }
+        } while ((replay != 1) || (replay != 2));
+        // printf("%d\n", replay);
+    } while (replay == 1);
     return 0;
+}
+
+int input_check(int input) {
+    // while (scanf("%d", &input) != 1) {
+    //     printf("Invalid input!\n");
+    //     scanf("%*s");
+    // }
+    int i;
+    do {
+        i  = scanf("%d", &input);
+        if (i != 1) {
+            printf("Invalid input!\n");
+            scanf("%*s");
+            while(getchar() != '\n');
+        }
+    } while (i != 1);
+    return input;
 }
