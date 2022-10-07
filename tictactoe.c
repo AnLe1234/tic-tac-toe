@@ -1,5 +1,7 @@
 // tic tac toe between a computer or 2 people
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 // fucntion to display current board
 void display_board(char *board) {
     int i = 0;
@@ -17,29 +19,44 @@ void display_board(char *board) {
 void player_turn(char *board, char symbol) {
     int row, col;
     do {
-        scanf("Enter location (row column): %d %d", row, col);
+        printf("Enter location (row column): ");
+        scanf("%d %d", &row, &col);
         if (row > 3 || col > 3 || row < 1 || col < 1) {
             printf("Enter limit co-ordinate.\n");
-        } else if (board[(row-1) + 3*(col-1)] != ' '){
-            printf("Location taken.");
+        } else if (board[(3 * (row - 1) + (col - 1))] != ' ') {
+            printf("Location taken.\n");
         } else {
+            board[3 * (row - 1) + (col - 1)] = symbol;
             break;
         }
     } while (1);
     // board[row-1][col-1] = symbol;
+};
+void computer_turn(char *board, char symbol) {
+    time_t t;
+    int rand_location;
+    printf("Computer's turn");
+    do {
+        rand_location = rand() % 10;
+    } while (board[rand_location] != ' ');
+    board[rand_location] = symbol;
 }
 // main function
 int main() {
     // user choose which type to play
-    int game_type;
-    char board[9] = {'1', '2', '3',
-                    '4', '5', '6',
-                    '7', '8', '9'};
-    printf("1) player vs. player\t2) player vs. computer\n");
-    do {
-        scanf(": %d", &game_type);
-    } while (game_type != 1 || game_type != 2);
+    int game_type = 0;
+    char board[9] = {' ', ' ', ' ',
+                     ' ', ' ', ' ',
+                     ' ', ' ', ' '};
+    printf("1) player vs. player\t2) player vs. computer");
+    // do {
+    scanf("%d", &game_type);
+    // } while (game_type != 1 || game_type != 2);
+    printf("%d", game_type);
     // read input to determine which type
+    int max_turn = 9;
+    char symbol;
+    display_board(board);
     if (game_type == 1) {
         // pvp();
         // int turn = 0;
@@ -56,17 +73,34 @@ int main() {
         // if (turn == 5) {
         //     printf("Draw!");
         // }
-    } else {
-        pve();
+        while (max_turn != 0) {
+            if (max_turn % 2 == 1) {
+                symbol = 'X';
+                printf("Player 1\n");
+            } else {
+                symbol = 'O';
+                printf("Player 2\n");
+            }
+            player_turn(board, symbol);
+            display_board(board);
+            max_turn--;
+        }
     }
+    if (max_turn == 0) {
+        printf("Draw!\n");
+    }
+    // } else {
+    //     pve();
+    // }
+
     // loop back until 1 person win/board is full
-        // player 1 choose a location
-        // display board
-        // check if win condition/full board
-        // player 2 choose a location
-        // displayboard
-        // check if win condition/full board
-        // print out winner/draw
+    // player 1 choose a location
+    // display board
+    // check if win condition/full board
+    // player 2 choose a location
+    // displayboard
+    // check if win condition/full board
+    // print out winner/draw
 
     return 0;
 }
