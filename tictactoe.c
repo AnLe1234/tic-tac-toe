@@ -35,15 +35,14 @@ void player_turn(char *board, char symbol) {
 
 int check_win(char *board, char symbol) {
     int win = 0;
-    if ((board[0] && board[1] && board[2])  == symbol
-        || (board[0] && board[4] && board[8]) == symbol
-        || (board[0] && board[3] && board[6]) == symbol
-        || (board[2] && board[4] && board[6]) == symbol
-        || (board[2] && board[5] && board[8]) == symbol
-        || (board[1] && board[4] && board[7]) == symbol
-        || (board[3] && board[4] && board[5]) == symbol
-        || (board[6] && board[7] && board[8]) == symbol
-        ) {
+    if ((board[0] == symbol && board[1]== symbol && board[2]  == symbol)
+        || (board[0]== symbol && board[4]== symbol && board[8] == symbol)
+        || (board[0]== symbol && board[3]== symbol && board[6] == symbol)
+        || (board[2]== symbol && board[4]== symbol && board[6] == symbol)
+        || (board[2]== symbol && board[5]== symbol && board[8] == symbol)
+        || (board[1]== symbol && board[4]== symbol && board[7] == symbol)
+        || (board[3]== symbol && board[4]== symbol && board[5] == symbol)
+        || (board[6]== symbol && board[7]== symbol && board[8] == symbol)) {
         win = 1;
     }
     return win;
@@ -99,7 +98,8 @@ int main() {
             }
             player_turn(board, symbol);
             display_board(board);
-            if (check_win(board, symbol) == 1 ) {
+            int win = check_win(board, symbol);
+            if (win == 1 ) {
                 if (symbol == 'X') {
                     printf("Player 1 win");
                 }
