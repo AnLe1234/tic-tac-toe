@@ -91,6 +91,7 @@ int winner(char symbol, int game_type) {
 // main function
 int main(void) {
     // user choose which type to play
+    printf("WELCOME TO TIC TAC TOE!\n");
     int replay;
     do {
         int game_type = 0;
