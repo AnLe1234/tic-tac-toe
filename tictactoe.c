@@ -32,6 +32,22 @@ void player_turn(char *board, char symbol) {
     } while (1);
     // board[row-1][col-1] = symbol;
 };
+
+int check_win(char *board, char symbol) {
+    int win = 0;
+    if ((board[0] && board[1] && board[2])  == symbol
+        || (board[0] && board[4] && board[8]) == symbol
+        || (board[0] && board[3] && board[6]) == symbol
+        || (board[2] && board[4] && board[6]) == symbol
+        || (board[2] && board[5] && board[8]) == symbol
+        || (board[1] && board[4] && board[7]) == symbol
+        || (board[3] && board[4] && board[5]) == symbol
+        || (board[6] && board[7] && board[8]) == symbol
+        ) {
+        win = 1;
+    }
+    return win;
+};
 void computer_turn(char *board, char symbol) {
     time_t t;
     int rand_location;
@@ -83,6 +99,15 @@ int main() {
             }
             player_turn(board, symbol);
             display_board(board);
+            if (check_win(board, symbol) == 1 ) {
+                if (symbol == 'X') {
+                    printf("Player 1 win");
+                }
+                else {
+                    printf("Player 2 win");
+                }
+                break;
+            }
             max_turn--;
         }
     }
